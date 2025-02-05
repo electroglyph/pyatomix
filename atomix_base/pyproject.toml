@@ -10,4 +10,4 @@ build = "cp310* cp311* cp312* cp313* pp310*"
 free-threaded-support = true
 
 [tool.cibuildwheel.linux]
-before-build = '''apt update && apt install gcc-10 g++-10 && export CC=gcc-10 && export CXX=g++-10'''
+before-build = '''export CC=gcc-12 && export CXX=g++-12'''
