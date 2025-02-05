@@ -6,8 +6,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
-build = "cp310* cp311* cp312* cp313* pp310*"
+build = "cp312* cp313* pp310*"
 free-threaded-support = true
 
 [tool.cibuildwheel.linux]
-before-build='''sudo apt update && sudo apt install -y software-properties-common && sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt update &&  sudo apt install -y gcc-12 g++-12 && export CC=gcc-12 && export CXX=g++-12'''
+before-build = '''export CC=gcc-12 && export CXX=g++-12'''
