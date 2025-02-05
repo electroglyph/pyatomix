@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["pyatomix.pyatomix"]
+
+[project]
+name = "pyatomix"
+version = "0.1.0"
+maintainers = [{ name = "0xDEADFED5", email = "admin@terminoid.com" }]
+description = "Cross platform atomic int for Python"
+requires-python = ">=3.7"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { text = "BSD" }
+keywords = [
+  "atomic",
+  "atomics",
+  "free-threading",
+  "no-GIL",
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: BSD License",
+  "Intended Audience :: Developers",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+dependencies = [
+  "atomix_base >= 0.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/0xDEADFED5/pyatomix"
+"Github" = "https://github.com/0xDEADFED5/pyatomix"
+
+
