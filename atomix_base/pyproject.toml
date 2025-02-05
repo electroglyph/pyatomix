@@ -8,4 +8,4 @@ build-backend = "setuptools.build_meta"
 [tool.cibuildwheel]
 build = "cp310* cp311* cp312* cp313* pp310*"
 free-threaded-support = true
-before-build = "[ "$(uname)" = "Linux" ] && apt update && apt install gcc-10 g++-10 || echo mac!"
+before-build = '''[ "$(uname)" = "Linux" ] && apt update && apt install gcc-10 g++-10 || echo mac!'''
