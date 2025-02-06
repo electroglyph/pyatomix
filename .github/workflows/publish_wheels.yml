@@ -16,9 +16,6 @@ jobs:
     #   CIBW_ENABLE: "cpython-freethreading"
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    # env:
-    #   CC: gcc-10
-    #   CXX: g++-10
     strategy:
       matrix:
         # macos-13 is an intel runner, macos-14 is apple silicon
