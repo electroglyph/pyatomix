@@ -12,8 +12,6 @@ on:
 
 jobs:
   build_wheels:
-    env:
-      CIBW_ENABLE: "cpython-freethreading"
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
