@@ -7,7 +7,7 @@ py-modules = ["pyatomix.pyatomix"]
 
 [project]
 name = "pyatomix"
-version = "0.1.0"
+version = "0.1.1"
 maintainers = [{ name = "0xDEADFED5", email = "admin@terminoid.com" }]
 description = "Cross platform atomic int for Python"
 requires-python = ">=3.7"
@@ -36,7 +36,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "atomix_base >= 0.1.0",
+  "atomix_base >= 0.1.1",
 ]
 
 [project.urls]
