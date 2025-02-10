@@ -4,21 +4,40 @@
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 namespace py = pybind11;
 using namespace pybind11::literals;
+#include <iostream>
 
 class AtomicFlag {
 public:
-    AtomicFlag() {}
+    AtomicFlag() { value.clear(std::memory_order_release); }
+    AtomicFlag(bool init) {
+        if (init) {
+            value.test_and_set();
+        } else {
+            value.clear(std::memory_order_release);
+        }
+    }
     void clear() { value.clear(std::memory_order_release); }
-    bool test_and_set() { return value.test_and_set(std::memory_order_acquire); }
+    bool test_and_set() { return value.test_and_set(); }
     bool test() { return value.test(std::memory_order_acquire); }
     void wait(bool old) { value.wait(old, std::memory_order_acquire); }
     void notify_one() { value.notify_one(); }
     void notify_all() { value.notify_all(); }
     bool operator==(py::object other) const {
-        return this->value.test(std::memory_order_acquire) == py::bool_(other);
+        return value.test(std::memory_order_acquire) == py::bool_(other);
     }
     bool operator!=(py::object other) const {
-        return this->value.test(std::memory_order_acquire) != py::bool_(other);
+        return value.test(std::memory_order_acquire) != py::bool_(other);
+    }
+    py::tuple getstate() {
+        return py::make_tuple(value.test());
+    }
+    void setstate(py::tuple state) {
+        bool x = state[0].cast<bool>();
+        if (x) {
+            value.test_and_set();
+        } else {
+            value.clear(std::memory_order_release);
+        }
     }
 private:
     std::atomic_flag value = ATOMIC_FLAG_INIT;
@@ -41,90 +60,97 @@ public:
         return value.compare_exchange_weak(expected_val, new_val);
         }
     bool operator==(int64_t other) const {
-        return this->value == other;
+        return value == other;
     }
     bool operator!=(int64_t other) const {
-        return this->value != other;
+        return value != other;
     }
     int64_t operator+(int64_t other) {
-        return this->value.load(std::memory_order_acquire) + other;
+        return value.load(std::memory_order_acquire) + other;
     }
     AtomicInt* operator+=(int64_t other) {
-        this->value += other;
+        value += other;
         return this;
     }
     int64_t operator-(int64_t other) {
-        return this->value.load(std::memory_order_acquire) + other;
+        return value.load(std::memory_order_acquire) + other;
     }
     AtomicInt* operator-=(int64_t other) {
-        this->value -= other;
+        value -= other;
         return this;
     }
     int64_t rsub(int64_t other) {
-        return other - this->value.load(std::memory_order_acquire);
+        return other - value.load(std::memory_order_acquire);
     }
     int64_t operator*(int64_t other) {
-        return this->value.load(std::memory_order_acquire) * other;
+        return value.load(std::memory_order_acquire) * other;
     }
     AtomicInt* operator*=(int64_t other) {
-        this->value.exchange(this->value.load(std::memory_order_acquire) * other, std::memory_order_acq_rel);
+        value.exchange(value.load(std::memory_order_acquire) * other, std::memory_order_acq_rel);
         return this;
     }
     int64_t operator/(int64_t other) {
-        return this->value.load(std::memory_order_acquire) / other;
+        return value.load(std::memory_order_acquire) / other;
     }
     AtomicInt* operator/=(int64_t other) {
-        this->value.exchange(this->value.load(std::memory_order_acquire) / other, std::memory_order_acq_rel);
+        value.exchange(value.load(std::memory_order_acquire) / other, std::memory_order_acq_rel);
         return this;
     }
     int64_t rdiv(int64_t other) {
-        return other / this->value.load(std::memory_order_acquire);
+        return other / value.load(std::memory_order_acquire);
     }
     int64_t operator%(int64_t other) {
-        return this->value.load(std::memory_order_acquire) % other;
+        return value.load(std::memory_order_acquire) % other;
     }
     AtomicInt* operator%=(int64_t other) {
-        this->value.exchange(this->value.load(std::memory_order_acquire) % other, std::memory_order_acq_rel);
+        value.exchange(value.load(std::memory_order_acquire) % other, std::memory_order_acq_rel);
         return this;
     }
     int64_t rmod(int64_t other) {
-        return other % this->value.load(std::memory_order_acquire);
+        return other % value.load(std::memory_order_acquire);
     }
     int64_t operator&(int64_t other) {
-        return this->value.load(std::memory_order_acquire) & other;
+        return value.load(std::memory_order_acquire) & other;
     }
     AtomicInt* operator&=(int64_t other) {
-        this->value &= other;
+        value &= other;
         return this;
     }
     int64_t operator|(int64_t other) {
-        return this->value.load(std::memory_order_acquire) | other;
+        return value.load(std::memory_order_acquire) | other;
     }
     AtomicInt* operator|=(int64_t other) {
-        this->value |= other;
+        value |= other;
         return this;
     }
     int64_t operator^(int64_t other) {
-        return this->value.load(std::memory_order_acquire) ^ other;
+        return value.load(std::memory_order_acquire) ^ other;
     }
     AtomicInt* operator^=(int64_t other) {
-        this->value ^= other;
+        value ^= other;
         return this;
     }
     bool lt(int64_t other) {
-        return this->value.load(std::memory_order_acquire) < other;
+        return value.load(std::memory_order_acquire) < other;
     }
     bool le(int64_t other) {
-        return this->value.load(std::memory_order_acquire) <= other;
+        return value.load(std::memory_order_acquire) <= other;
     }
     bool gt(int64_t other) {
-        return this->value.load(std::memory_order_acquire) > other;
+        return value.load(std::memory_order_acquire) > other;
     }
     bool ge(int64_t other) {
-        return this->value.load(std::memory_order_acquire) >= other;
+        return value.load(std::memory_order_acquire) >= other;
     }
     std::string str() {
-        return std::to_string(this->value.load(std::memory_order_acquire));
+        return std::to_string(value.load(std::memory_order_acquire));
+    }
+    py::tuple getstate() {
+        return py::make_tuple(value.load(std::memory_order_acquire));
+    }
+    void setstate(py::tuple state) {
+        int64_t x = state[0].cast<int64_t>();
+        value.store(x);
     }
 
 private:
@@ -134,6 +160,7 @@ private:
 PYBIND11_MODULE(atomix_base, m, py::mod_gil_not_used()) {
     py::class_<AtomicFlag>(m, "AtomicFlag")
         .def(py::init<>())
+        .def(py::init<bool>())
         .def("clear", &AtomicFlag::clear)
         .def("test_and_set", &AtomicFlag::test_and_set)
         .def("test", &AtomicFlag::test)
@@ -141,7 +168,9 @@ PYBIND11_MODULE(atomix_base, m, py::mod_gil_not_used()) {
         .def("notify_one", &AtomicFlag::notify_one)
         .def("notify_all", &AtomicFlag::notify_all)
         .def("__eq__", &AtomicFlag::operator==)
-        .def("__neq__", &AtomicFlag::operator!=);
+        .def("__neq__", &AtomicFlag::operator!=)
+        .def("__getstate__", &AtomicFlag::getstate)
+        .def("__setstate__", &AtomicFlag::setstate);
 
     py::class_<AtomicInt>(m, "AtomicInt")
         .def(py::init<int64_t>())
@@ -186,7 +215,9 @@ PYBIND11_MODULE(atomix_base, m, py::mod_gil_not_used()) {
         .def("__le__", &AtomicInt::le)
         .def("__gt__", &AtomicInt::gt)
         .def("__ge__", &AtomicInt::ge)
-        .def("__str__", &AtomicInt::str);
+        .def("__str__", &AtomicInt::str)
+        .def("__getstate__", &AtomicInt::getstate)
+        .def("__setstate__", &AtomicInt::setstate);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

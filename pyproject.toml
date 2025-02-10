@@ -7,7 +7,7 @@ py-modules = ["pyatomix.pyatomix"]
 
 [project]
 name = "pyatomix"
-version = "0.1.1"
+version = "0.1.2"
 maintainers = [{ name = "0xDEADFED5", email = "admin@terminoid.com" }]
 description = "Cross platform atomic int for Python"
 requires-python = ">=3.7"
@@ -21,22 +21,18 @@ keywords = [
 ]
 
 classifiers = [
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.13t",
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: BSD License",
   "Intended Audience :: Developers",
   "Operating System :: MacOS",
   "Operating System :: Microsoft :: Windows",
   "Operating System :: POSIX :: Linux",
-  "Topic :: Software Development :: Libraries :: Application Frameworks",
 ]
 
 dependencies = [
-  "atomix_base >= 0.1.1",
+  "atomix_base >= 0.1.2",
 ]
 
 [project.urls]

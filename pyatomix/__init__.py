@@ -1,6 +1,7 @@
 from atomix_base import AtomicFlag, AtomicInt
 import time
 import threading
+import pickle
 __all__ = ["AtomicInt", "AtomicTest", "AtomicFlag"]
 
 class AtomicTest():
@@ -103,6 +104,11 @@ class AtomicTest():
         if not self.base >= 1:
             return ">= fail"
         return ""
+    def pickle_test(self) -> bool:
+        self.base = AtomicInt(888)
+        x = pickle.dumps(self.base)
+        y = pickle.loads(x)
+        return y == 888
         
     def int_test(self):
         fail = 0
@@ -129,6 +135,9 @@ class AtomicTest():
         if not o:
             result += "Operators test failed: {o}\n"
             fail += 1
+        if not self.pickle_test():
+            result += "Pickle test failed\n"
+            fail += 1
         if fail == 0:
             result += "All tests passed"
         else:
@@ -148,6 +157,13 @@ class AtomicTest():
         if self.flag.test_and_set() != False:
             return False
         if self.flag != True:
+            return False
+        self.flag = AtomicFlag(True)
+        if self.flag != True:
+            return False
+        x = pickle.dumps(self.flag)
+        y = pickle.loads(x)
+        if y != True:
             return False
         self.flag.test_and_set()
         t = threading.Thread(target=self.wait_test)
