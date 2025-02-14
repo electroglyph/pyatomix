@@ -1,10 +1,10 @@
 ## pyatomix provides std::atomic_flag and std::atomic<int64_t> for Python
 
 Compatible with Python 3.13 free-threaded.
-Windows users will need to have Visual Studio (or VS Build Tools) installed to build this.
-It uses Pybind11 and pip/setuptools will build it automatically.  It's been tested on Windows and Linux.
 
-Linux users will need the Python dev package installed for their Python version to install atomix, for instance: python3.13-dev
+There are Windows wheels available, but it can build from source automatically on Windows. Windows users will need to have Visual Studio (or VS Build Tools) installed to build this from source.
+
+Linux users will need the Python dev package installed for their Python version to install atomix from source, for instance: python3.13-dev
 
 ## Installation
 
