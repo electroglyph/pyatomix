@@ -21,6 +21,7 @@ pip install -U ./pyatomix
 from pyatomix import AtomicInt, AtomicFlag
 x = AtomicInt(7)     # initial value of 7
 x += 1               # now it's 8, this is atomic
+y = AtomicFlag(True) # y == True
 y = AtomicFlag()     # y == False
 z = y.test_and_set() # z == False, y == True
 y.clear()            # y == False

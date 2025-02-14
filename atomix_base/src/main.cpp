@@ -4,7 +4,6 @@
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 namespace py = pybind11;
 using namespace pybind11::literals;
-#include <iostream>
 
 class AtomicFlag {
 public:
