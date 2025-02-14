@@ -31,7 +31,7 @@ all the math operators except **, >>, <<=, >>, >>= are overridden for AtomicInt.
 
 atomic assignment operators: +=, -=, &=, |=, ^= (using these are an atomic operation)
 
-other assignment operators like %=,/=,//=,*= first load the value, then store the modified value. those operators are thread-safe, but not atomic.
+other assignment operators like %=,/=,//=,*= first load the value, then store the modified value. those operators are *not* atomic.
 
 ## Performance
 
