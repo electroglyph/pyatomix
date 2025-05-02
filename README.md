@@ -11,7 +11,7 @@ Linux users will need the Python dev package installed for their Python version 
 ```
 pip install -U pyatomix
 -or-
-git clone https://github.com/0xDEADFED5/pyatomix.git
+git clone https://github.com/electroglyph/pyatomix.git
 pip install -U ./pyatomix
 ```
 
