@@ -8,7 +8,7 @@ py-modules = ["pyatomix.pyatomix"]
 [project]
 name = "pyatomix"
 version = "0.1.4"
-maintainers = [{ name = "0xDEADFED5", email = "admin@terminoid.com" }]
+maintainers = [{ name = "electroglyph", email = "admin@terminoid.com" }]
 description = "Cross platform atomic int for Python"
 requires-python = ">=3.7"
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/0xDEADFED5/pyatomix"
-"Github" = "https://github.com/0xDEADFED5/pyatomix"
+"Homepage" = "https://github.com/electroglyph/pyatomix"
+"Github" = "https://github.com/electroglyph/pyatomix"
 
 
