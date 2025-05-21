@@ -72,7 +72,7 @@ public:
         return this;
     }
     int64_t operator-(int64_t other) {
-        return value.load(std::memory_order_acquire) + other;
+        return value.load(std::memory_order_acquire) - other;
     }
     AtomicInt* operator-=(int64_t other) {
         value -= other;

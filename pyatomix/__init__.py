@@ -137,8 +137,8 @@ class AtomicTest():
             result += "Compare exchange weak test failed\n"
             fail += 1
         o = self.operators()
-        if not o:
-            result += "Operators test failed: {o}\n"
+        if o != "":
+            result += f"Operators test failed: {o}\n"
             fail += 1
         if not self.pickle_test():
             result += "Pickle test failed\n"
