@@ -151,6 +151,12 @@ public:
         int64_t x = state[0].cast<int64_t>();
         value.store(x);
     }
+    int64_t __int__() {
+        return value.load(std::memory_order_acquire);
+    }
+    int64_t __index__() {
+        return value.load(std::memory_order_acquire);
+    }
 
 private:
     std::atomic<int64_t> value;
@@ -216,7 +222,9 @@ PYBIND11_MODULE(atomix_base, m, py::mod_gil_not_used()) {
         .def("__ge__", &AtomicInt::ge)
         .def("__str__", &AtomicInt::str)
         .def("__getstate__", &AtomicInt::getstate)
-        .def("__setstate__", &AtomicInt::setstate);
+        .def("__setstate__", &AtomicInt::setstate)
+        .def("__int__", &AtomicInt::__int__)
+        .def("__index__", &AtomicInt::__index__);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

@@ -109,6 +109,11 @@ class AtomicTest():
         x = pickle.dumps(self.base)
         y = pickle.loads(x)
         return y == 888
+    def index_test(self) -> bool:
+        self.base = AtomicInt(8)
+        test_list = [0] * 9
+        test_list[self.base] = 777
+        return test_list[self.base] == test_list[8]
         
     def int_test(self):
         fail = 0
@@ -137,6 +142,9 @@ class AtomicTest():
             fail += 1
         if not self.pickle_test():
             result += "Pickle test failed\n"
+            fail += 1
+        if not self.index_test():
+            result += "Index test failed\n"
             fail += 1
         if fail == 0:
             result += "All tests passed"
